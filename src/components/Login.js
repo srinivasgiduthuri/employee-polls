@@ -39,10 +39,13 @@ const Login = ({ dispatch, users, message }) => {
                 className="form-select form-select-lg mb-3"
                 value={user}
                 onChange={handleChange}
+                data-testid="user"
               >
-                <option value="None">Select user to login</option>
+                <option value="None" data-testid="user-option">
+                  Select user to login
+                </option>
                 {Object.keys(users).map((id) => (
-                  <option key={id} value={id}>
+                  <option key={id} value={id} data-testid="user-option">
                     {users[id].name}
                   </option>
                 ))}

@@ -6,6 +6,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import middleware from "../middleware";
 import reducer from "../reducers";
 import Login from "../components/Login";
+import userEvent from "@testing-library/user-event";
 
 const store = createStore(reducer, middleware);
 
@@ -20,12 +21,9 @@ describe("CreatePoll", () => {
     );
 
     const userInput = screen.getByTestId("user");
-    const passwordInput = screen.getByTestId("password");
-    const submitButton = screen.getByTestId("login");
-    fireEvent.change(userInput, { target: { value: "user" } });
-    fireEvent.change(passwordInput, { target: { value: "password" } });
-
-    expect(submitButton).toHaveProperty("disabled", false);
+    userEvent.selectOptions(userInput, "None");
+    const options = screen.getAllByTestId("user-option");
+    expect(options[0].selected).toBeTruthy();
   });
 
   it("will disable the submit button when submitting a new question without both options", () => {
@@ -38,10 +36,8 @@ describe("CreatePoll", () => {
     );
 
     const userInput = screen.getByTestId("user");
-    const passwordInput = screen.getByTestId("password");
     const submitButton = screen.getByTestId("login");
-    fireEvent.change(userInput, { target: { value: "user" } });
-    fireEvent.change(passwordInput, { target: { value: "" } });
+    fireEvent.change(userInput, { target: { value: "mtsamis" } });
 
     expect(submitButton).toHaveProperty("disabled", true);
   });
