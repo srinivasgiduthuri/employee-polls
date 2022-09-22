@@ -2,6 +2,7 @@ import { connect } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { handleAnswerQuestion } from "../actions/shared";
 import Login from "./Login";
+import NotFound from "./NotFound";
 
 const withRouter = (Component) => {
   const ComponentWithRouterProp = (props) => {
@@ -15,18 +16,19 @@ const withRouter = (Component) => {
 };
 
 const Poll = (props) => {
-  const navigate = useNavigate();
   const handleClick = (e) => {
     e.preventDefault();
     const { id } = props.router.params;
     const { dispatch } = props;
     const { name } = e.target;
     dispatch(handleAnswerQuestion(id, name));
-    navigate(`/`);
   };
   const { authedUser, question, users } = props;
-  if (!authedUser || !props.question) {
-    return <Login message="This question doesn't exist." />;
+  if (!authedUser) {
+    return <Login />;
+  }
+  if (!props.question) {
+    return <NotFound message="This question doesn't exist" />;
   }
   const { id, avatarURL } = users[question.author];
   const { answers } = users[authedUser];

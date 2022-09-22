@@ -1,9 +1,10 @@
 import { connect } from "react-redux";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { setAuthedUser } from "../actions/authedUser";
 
-const Login = ({ dispatch, users, message }) => {
+const Login = ({ dispatch, users }) => {
+  const location = useLocation();
   const [user, setUser] = useState("");
   const [showError, setShowError] = useState(false);
   const navigate = useNavigate();
@@ -15,19 +16,13 @@ const Login = ({ dispatch, users, message }) => {
     e.preventDefault();
     setShowError(false);
     dispatch(setAuthedUser(users[user].id));
-    navigate(`/`);
-    setUser("");
+    navigate(location?.pathname || "/");
   };
   return (
     <div className="container-fluid">
       <h2 className="h2 text-center">Employee Polls</h2>
       <div className="row justify-content-md-center">
         <div className="col-3">
-          {message && (
-            <div className="alert alert-danger" role="alert">
-              {message}
-            </div>
-          )}
           {showError && (
             <div className="alert alert-danger" role="alert">
               Login failed. Please try again!
@@ -68,9 +63,8 @@ const Login = ({ dispatch, users, message }) => {
   );
 };
 
-const mapStateToProps = ({ users }, { message }) => ({
+const mapStateToProps = ({ users }) => ({
   users,
-  message,
 });
 
 export default connect(mapStateToProps)(Login);
