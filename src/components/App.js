@@ -59,15 +59,7 @@ function App(props) {
                 </RequireAuth>
               }
             />
-            <Route
-              path="/questions/:id"
-              exact
-              element={
-                <RequireAuth authedUser={props.authedUser}>
-                  <Poll />
-                </RequireAuth>
-              }
-            />
+            <Route path="/questions/:id" exact element={<Poll />} />
           </Routes>
         )}
       </div>
