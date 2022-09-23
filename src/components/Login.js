@@ -17,8 +17,9 @@ const Login = ({ dispatch, users }) => {
     setShowError(false);
     const loggedInUser = users[user];
     if (loggedInUser) {
+      console.log(state);
       dispatch(setAuthedUser(users[user].id));
-      navigate(state?.pathname || "/");
+      navigate(state?.path || "/");
     }
   };
   return (
