@@ -58,7 +58,14 @@ function App(props) {
                 </RequireAuth>
               }
             />
-            <Route path="/questions/:id" element={<Poll />} />
+            <Route
+              path="/questions/:id"
+              element={
+                <RequireAuth authedUser={props.authedUser}>
+                  <Poll />
+                </RequireAuth>
+              }
+            />
           </Routes>
         )}
       </div>
