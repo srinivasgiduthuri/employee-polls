@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { setAuthedUser } from "../actions/authedUser";
 
 const Login = ({ dispatch, users }) => {
-  const location = useLocation();
+  const { state } = useLocation();
   const [user, setUser] = useState("");
   const [showError, setShowError] = useState(false);
   const navigate = useNavigate();
@@ -15,8 +15,11 @@ const Login = ({ dispatch, users }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setShowError(false);
-    dispatch(setAuthedUser(users[user].id));
-    navigate(location?.pathname || "/");
+    const loggedInUser = users[user];
+    if (loggedInUser) {
+      dispatch(setAuthedUser(users[user].id));
+      navigate(state?.pathname || "/");
+    }
   };
   return (
     <div className="container-fluid">
